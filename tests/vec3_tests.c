@@ -1,5 +1,5 @@
 #include <unity.h>
-#include <gmath/gmath.h>
+#include <gmath.h>
 
 void test_vec3_addition() {
   vec3_t v1 = {1, 2, 3};

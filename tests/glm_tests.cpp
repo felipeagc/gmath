@@ -1,6 +1,6 @@
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
-#include <gmath/gmath.h>
+#include <gmath.h>
 #include <unity.h>
 
 void test_glm_mat4_perspective() {

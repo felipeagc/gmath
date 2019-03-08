@@ -1,5 +1,7 @@
+#include <gmath.h>
 #include <unity.h>
-#include <gmath/gmath.h>
+
+void test_mat4_size() { TEST_ASSERT(sizeof(mat4_t) == sizeof(float) * 16); }
 
 void test_mat4_zero() {
   mat4_t mat = mat4_zero();
@@ -79,7 +81,8 @@ void test_mat4_addition() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mata.columns[i][j] + matb.columns[i][j], sum.columns[i][j]);
+      TEST_ASSERT_EQUAL_FLOAT(
+          mata.columns[i][j] + matb.columns[i][j], sum.columns[i][j]);
     }
   }
 }
@@ -96,7 +99,8 @@ void test_mat4_subtraction() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mata.columns[i][j] - matb.columns[i][j], sub.columns[i][j]);
+      TEST_ASSERT_EQUAL_FLOAT(
+          mata.columns[i][j] - matb.columns[i][j], sub.columns[i][j]);
     }
   }
 }
@@ -157,6 +161,7 @@ void test_mat4_multiplication() {
 int main() {
   UNITY_BEGIN();
 
+  RUN_TEST(test_mat4_size);
   RUN_TEST(test_mat4_zero);
   RUN_TEST(test_mat4_diagonal);
   RUN_TEST(test_mat4_identity);
