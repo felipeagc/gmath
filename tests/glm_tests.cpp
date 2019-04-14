@@ -11,7 +11,7 @@ void test_glm_mat4_perspective() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j], glm_mat[i][j]);
+      TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j], glm_mat[i][j]);
     }
   }
 }
@@ -25,7 +25,7 @@ void test_glm_mat4_look_at() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j], glm_mat[i][j]);
+      TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j], glm_mat[i][j]);
     }
   }
 }
@@ -49,7 +49,7 @@ void test_glm_mat4_translate() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j], glm_mat[i][j]);
+      TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j], glm_mat[i][j]);
     }
   }
 }
@@ -60,7 +60,7 @@ void test_glm_mat4_scale() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j], glm_mat[i][j]);
+      TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j], glm_mat[i][j]);
     }
   }
 }
@@ -71,7 +71,22 @@ void test_glm_mat4_rotate() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j], glm_mat[i][j]);
+      TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j], glm_mat[i][j]);
+    }
+  }
+}
+
+void test_glm_mat4_inverse() {
+  mat4_t mat = mat4_look_at({1.0, -1.0, 0.0}, {3.0, 3.0, 3.0}, {0.0, 1.0, 0.0});
+  glm::mat4 glm_mat =
+      glm::lookAt(glm::vec3{1.0, -1.0, 0.0}, {3.0, 3.0, 3.0}, {0.0, 1.0, 0.0});
+
+  mat4_t inv = mat4_inverse(mat);
+  glm::mat4 glm_inv = glm::inverse(glm_mat);
+
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      TEST_ASSERT_EQUAL_FLOAT(inv.cols[i][j], glm_inv[i][j]);
     }
   }
 }
@@ -84,7 +99,7 @@ void test_glm_quat_dot() {
 }
 
 void test_glm_quat_normalize() {
-  quat_t quat = quat_normalize({1, 2, 3, 4}); // x, y, z, w
+  quat_t quat = quat_normalize({1, 2, 3, 4});                 // x, y, z, w
   glm::quat glm_quat = glm::normalize(glm::quat{4, 1, 2, 3}); // w, x, y, z
 
   TEST_ASSERT_EQUAL_FLOAT(quat.x, glm_quat.x);
@@ -94,8 +109,9 @@ void test_glm_quat_normalize() {
 }
 
 void test_glm_quat_from_axis_angle() {
-  quat_t quat = quat_from_axis_angle(vec3_normalize({1, 2, 3}), 30.0f) ;
-  glm::quat glm_quat = glm::angleAxis(30.0f, glm::normalize(glm::vec3{1, 2, 3}));
+  quat_t quat = quat_from_axis_angle(vec3_normalize({1, 2, 3}), 30.0f);
+  glm::quat glm_quat =
+      glm::angleAxis(30.0f, glm::normalize(glm::vec3{1, 2, 3}));
 
   TEST_ASSERT_EQUAL_FLOAT(quat.x, glm_quat.x);
   TEST_ASSERT_EQUAL_FLOAT(quat.y, glm_quat.y);
@@ -104,12 +120,13 @@ void test_glm_quat_from_axis_angle() {
 }
 
 void test_glm_quat_to_axis_angle() {
-  quat_t quat = quat_from_axis_angle(vec3_normalize({1, 2, 3}), 30.0f) ;
+  quat_t quat = quat_from_axis_angle(vec3_normalize({1, 2, 3}), 30.0f);
   vec3_t axis;
   float angle;
   quat_to_axis_angle(quat, &axis, &angle);
 
-  glm::quat glm_quat = glm::angleAxis(30.0f, glm::normalize(glm::vec3{1, 2, 3}));
+  glm::quat glm_quat =
+      glm::angleAxis(30.0f, glm::normalize(glm::vec3{1, 2, 3}));
   glm::vec3 glm_axis = glm::axis(glm_quat);
   float glm_angle = glm::angle(glm_quat);
 
@@ -120,7 +137,7 @@ void test_glm_quat_to_axis_angle() {
 }
 
 void test_glm_quat_conjugate() {
-  quat_t quat = quat_conjugate({1, 2, 3, 4}) ;
+  quat_t quat = quat_conjugate({1, 2, 3, 4});
   glm::quat glm_quat = glm::conjugate(glm::quat{4, 1, 2, 3});
 
   TEST_ASSERT_EQUAL_FLOAT(quat.x, glm_quat.x);
@@ -130,12 +147,12 @@ void test_glm_quat_conjugate() {
 }
 
 void test_glm_quat_to_mat4() {
-  mat4_t mat = quat_to_mat4(quat_normalize({1, 2, 3, 4})) ;
+  mat4_t mat = quat_to_mat4(quat_normalize({1, 2, 3, 4}));
   glm::mat4 glm_mat = glm::mat4_cast(glm::normalize(glm::quat{4, 1, 2, 3}));
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j], glm_mat[i][j]);
+      TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j], glm_mat[i][j]);
     }
   }
 }
@@ -162,6 +179,7 @@ int main() {
   RUN_TEST(test_glm_mat4_translate);
   RUN_TEST(test_glm_mat4_scale);
   RUN_TEST(test_glm_mat4_rotate);
+  RUN_TEST(test_glm_mat4_inverse);
 
   RUN_TEST(test_glm_quat_dot);
   RUN_TEST(test_glm_quat_normalize);

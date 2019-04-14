@@ -8,7 +8,7 @@ void test_mat4_zero() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j], 0.0f);
+      TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j], 0.0f);
     }
   }
 }
@@ -19,9 +19,9 @@ void test_mat4_diagonal() {
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
       if (i == j) {
-        TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j], 2.0f);
+        TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j], 2.0f);
       } else {
-        TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j], 0.0f);
+        TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j], 0.0f);
       }
     }
   }
@@ -33,9 +33,9 @@ void test_mat4_identity() {
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
       if (i == j) {
-        TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j], 1.0f);
+        TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j], 1.0f);
       } else {
-        TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j], 0.0f);
+        TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j], 0.0f);
       }
     }
   }
@@ -47,60 +47,60 @@ void test_mat4_transpose_identity() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mata.columns[i][j], matb.columns[i][j]);
+      TEST_ASSERT_EQUAL_FLOAT(mata.cols[i][j], matb.cols[i][j]);
     }
   }
 }
 
 void test_mat4_transpose() {
   mat4_t mata = mat4_identity();
-  mata.columns[0][1] = 5.0f;
-  mata.columns[0][2] = 6.0f;
-  mata.columns[0][3] = 7.0f;
-  mata.columns[1][3] = 8.0f;
-  mata.columns[2][3] = 9.0f;
-  mata.columns[3][2] = 10.0f;
+  mata.cols[0][1] = 5.0f;
+  mata.cols[0][2] = 6.0f;
+  mata.cols[0][3] = 7.0f;
+  mata.cols[1][3] = 8.0f;
+  mata.cols[2][3] = 9.0f;
+  mata.cols[3][2] = 10.0f;
   mat4_t matb = mat4_transpose(mata);
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mata.columns[i][j], matb.columns[j][i]);
+      TEST_ASSERT_EQUAL_FLOAT(mata.cols[i][j], matb.cols[j][i]);
     }
   }
 }
 
 void test_mat4_addition() {
   mat4_t mata = mat4_identity();
-  mata.columns[0][1] = 5.0f;
+  mata.cols[0][1] = 5.0f;
   mat4_t matb = mat4_identity();
-  matb.columns[0][1] = 1.0f;
-  matb.columns[0][3] = 5.0f;
-  matb.columns[1][2] = 3.0f;
+  matb.cols[0][1] = 1.0f;
+  matb.cols[0][3] = 5.0f;
+  matb.cols[1][2] = 3.0f;
 
   mat4_t sum = mat4_add(mata, matb);
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
       TEST_ASSERT_EQUAL_FLOAT(
-          mata.columns[i][j] + matb.columns[i][j], sum.columns[i][j]);
+          mata.cols[i][j] + matb.cols[i][j], sum.cols[i][j]);
     }
   }
 }
 
 void test_mat4_subtraction() {
   mat4_t mata = mat4_identity();
-  mata.columns[0][1] = 5.0f;
+  mata.cols[0][1] = 5.0f;
   mat4_t matb = mat4_identity();
-  matb.columns[0][1] = 1.0f;
-  matb.columns[0][3] = 5.0f;
-  matb.columns[1][2] = 3.0f;
+  matb.cols[0][1] = 1.0f;
+  matb.cols[0][3] = 5.0f;
+  matb.cols[1][2] = 3.0f;
 
   mat4_t sub = mat4_sub(mata, matb);
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
       TEST_ASSERT_EQUAL_FLOAT(
-          mata.columns[i][j] - matb.columns[i][j], sub.columns[i][j]);
+          mata.cols[i][j] - matb.cols[i][j], sub.cols[i][j]);
     }
   }
 }
@@ -111,7 +111,7 @@ void test_mat4_multiplication_scalar() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j] * 5.0f, mul.columns[i][j]);
+      TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j] * 5.0f, mul.cols[i][j]);
     }
   }
 }
@@ -122,7 +122,7 @@ void test_mat4_division_scalar() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mat.columns[i][j] / 5.0f, div.columns[i][j]);
+      TEST_ASSERT_EQUAL_FLOAT(mat.cols[i][j] / 5.0f, div.cols[i][j]);
     }
   }
 }
@@ -153,7 +153,7 @@ void test_mat4_multiplication() {
 
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      TEST_ASSERT_EQUAL_FLOAT(mul.columns[i][j], expected.columns[i][j]);
+      TEST_ASSERT_EQUAL_FLOAT(mul.cols[i][j], expected.cols[i][j]);
     }
   }
 }
